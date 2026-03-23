@@ -29,7 +29,7 @@
     </div>
   </div>
 </nav>
-<!-- CART SIDEBAR -->
+
 <div class="cart-overlay" id="cartOverlay"></div>
 <div class="cart-sidebar" id="cartSidebar">
   <div class="cart-header"><h3>🛒 My Cart</h3><button class="btn-close-cart" onclick="closeCart()">✕</button></div>
@@ -40,7 +40,7 @@
     <button class="btn-view-cart" onclick="window.location.href='cart.html'; closeCart();">View Cart</button>
   </div>
 </div>
-<!-- PAYMENT MODAL -->
+
 <div class="modal-overlay" id="paymentModal">
   <div class="payment-modal" style="position:relative">
     <button class="btn-close-modal" onclick="closePaymentModal()">✕</button>
@@ -67,33 +67,30 @@
   </div>
 </div>
 
-<!-- BOOK DETAIL MODAL -->
 <div class="modal-overlay" id="bookDetailModal">
   <div class="book-detail-modal" style="position:relative">
     <button class="btn-close-modal" onclick="closeBookDetail()">✕</button>
     <div class="book-detail-inner" id="bookDetailInner">
-      <!-- filled by JS -->
-    </div>
+      </div>
   </div>
 </div>
 
 <div class="container" id="content">
   <div class="col-12 text-center mt-5 mb-4"><h1 class="anabaslik">Our E-Books</h1></div>
 
-  <!-- Free Books -->
-  <h2 class="category-title" id="cat-free">📖 Free to Read</h2>
+  <h2 class="category-title">📖 Free to Read</h2>
   <p class="category-desc">Try these for free — no account needed.</p>
   <div class="row g-4 mb-5">
     <div class="col-sm-6 col-md-4 col-lg-3">
-      <div class="book-card" onclick="openBookDetail('monster-falls')" style="cursor:pointer">
-        <img src="1.png" alt="The Tale of Monster Falls" onerror="this.src='kapak.png'">
-        <div class="free-badge">FREE</div>
+      <div class="book-card" onclick="openBookDetail('lost-trail')" style="cursor:pointer">
+        <img src="kapak.png" alt="The Lost Trail">
+        <div class='free-badge'>FREE</div>
         <div class="book-card-body">
-          <div class="book-card-title">The Tale of Monster Falls</div>
+          <div class="book-card-title">The Lost Trail</div>
           <div class="book-card-author">by Ada Nisa Özcan</div>
           <div class="d-flex justify-content-between align-items-center mt-2">
             <span class="book-card-price">FREE</span>
-            <button class="btn-book btn-free" onclick="openBookDetail('monster-falls')">Read Free</button>
+            <button class="btn-book btn-free" onclick="openBookDetail('lost-trail')">Read Free</button>
           </div>
         </div>
       </div>
@@ -114,12 +111,11 @@
     </div>
   </div>
 
-  <h2 class="category-title" id="cat-adventure">⚡ Adventure Books</h2>
+  <h2 class="category-title">⚡ Adventure Books</h2>
   <div class="row g-4 mb-5">
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="book-card" onclick="openBookDetail('mountain-quest')" style="cursor:pointer">
         <img src="kapak.png" alt="Mountain Quest">
-        
         <div class="book-card-body">
           <div class="book-card-title">Mountain Quest</div>
           <div class="book-card-author">by Ada Nisa Özcan</div>
@@ -133,7 +129,6 @@
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="book-card" onclick="openBookDetail('desert-journey')" style="cursor:pointer">
         <img src="kapak.png" alt="Desert Journey">
-        
         <div class="book-card-body">
           <div class="book-card-title">Desert Journey</div>
           <div class="book-card-author">by Ada Nisa Özcan</div>
@@ -147,7 +142,6 @@
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="book-card" onclick="openBookDetail('dark-waters')" style="cursor:pointer">
         <img src="kapak.png" alt="Dark Waters">
-        
         <div class="book-card-body">
           <div class="book-card-title">Dark Waters</div>
           <div class="book-card-author">by Ada Nisa Özcan</div>
@@ -160,12 +154,11 @@
     </div>
   </div>
 
-  <h2 class="category-title" id="cat-activity">🎨 Activity Books</h2>
+  <h2 class="category-title">🎨 Activity Books</h2>
   <div class="row g-4 mb-5">
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="book-card" onclick="openBookDetail('puzzle-world')" style="cursor:pointer">
         <img src="kapak.png" alt="Puzzle World">
-        
         <div class="book-card-body">
           <div class="book-card-title">Puzzle World</div>
           <div class="book-card-author">by Ada Nisa Özcan</div>
@@ -179,7 +172,6 @@
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="book-card" onclick="openBookDetail('creative-hands')" style="cursor:pointer">
         <img src="kapak.png" alt="Creative Hands">
-        
         <div class="book-card-body">
           <div class="book-card-title">Creative Hands</div>
           <div class="book-card-author">by Ada Nisa Özcan</div>
@@ -193,7 +185,6 @@
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="book-card" onclick="openBookDetail('color-create')" style="cursor:pointer">
         <img src="kapak.png" alt="Color & Create">
-        
         <div class="book-card-body">
           <div class="book-card-title">Color & Create</div>
           <div class="book-card-author">by Ada Nisa Özcan</div>
@@ -206,12 +197,11 @@
     </div>
   </div>
 
-  <h2 class="category-title" id="cat-action">🚀 Action Books</h2>
+  <h2 class="category-title">🚀 Action Books</h2>
   <div class="row g-4 mb-5">
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="book-card" onclick="openBookDetail('zero-hour')" style="cursor:pointer">
         <img src="kapak.png" alt="Zero Hour">
-        
         <div class="book-card-body">
           <div class="book-card-title">Zero Hour</div>
           <div class="book-card-author">by Ada Nisa Özcan</div>
@@ -225,7 +215,6 @@
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="book-card" onclick="openBookDetail('thunder-strike')" style="cursor:pointer">
         <img src="kapak.png" alt="Thunder Strike">
-        
         <div class="book-card-body">
           <div class="book-card-title">Thunder Strike</div>
           <div class="book-card-author">by Ada Nisa Özcan</div>
@@ -243,7 +232,6 @@
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="book-card" onclick="openBookDetail('speed-machines')" style="cursor:pointer">
         <img src="kapak.png" alt="Speed Machines">
-        
         <div class="book-card-body">
           <div class="book-card-title">Speed Machines</div>
           <div class="book-card-author">by Ada Nisa Özcan</div>
@@ -257,7 +245,6 @@
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="book-card" onclick="openBookDetail('city-roads')" style="cursor:pointer">
         <img src="kapak.png" alt="City Roads">
-        
         <div class="book-card-body">
           <div class="book-card-title">City Roads</div>
           <div class="book-card-author">by Ada Nisa Özcan</div>
@@ -286,13 +273,14 @@
     </div>
   </div>
 </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script type="module" src="firebase.js"></script>
 <script src="cart.js"></script>
 <script>
-// Book data - admin panelinden Firebase'e bağlanacak
-window.BOOKS = {
-  "monster-falls":   { title:"The Tale of Monster Falls", author:"Ada Nisa Özcan", price:0, free:true, cover:"1.png", desc:"Deep in the Enchanted Forest lies a mysterious place called Monster Falls. When Leo the fox and his friends decide to find out the truth, they discover that kindness — not fear — builds the strongest friendships. A magical story for ages 4-8.", pages:9, lang:"English", pdfUrl:"https://drive.google.com/file/d/1LH01Ob7W3_wligRpEzFJdNZnTu7fl4Hb/preview", downloadUrl:"https://drive.google.com/uc?export=download&id=1LH01Ob7W3_wligRpEzFJdNZnTu7fl4Hb" },
+// Book data
+const BOOKS = {
+  "lost-trail":      { title:"The Lost Trail",    author:"Ada Nisa Özcan", price:0,  free:true,  cover:"kapak.png", desc:"A thrilling adventure story about a young explorer who discovers a hidden trail leading to an ancient mystery. Perfect for ages 7-12.", pages:48, lang:"English" },
   "ocean-explorer":  { title:"Ocean Explorer",    author:"Ada Nisa Özcan", price:0,  free:true,  cover:"kapak.png", desc:"Dive into the deep blue with Emma as she discovers incredible sea creatures and solves the mystery of the missing lighthouse keeper.", pages:52, lang:"English" },
   "mountain-quest":  { title:"Mountain Quest",    author:"Ada Nisa Özcan", price:9,  free:false, cover:"kapak.png", desc:"An epic journey through the highest mountains in the world. Join Kai and his friends as they race against time to reach the summit.", pages:64, lang:"English" },
   "desert-journey":  { title:"Desert Journey",    author:"Ada Nisa Özcan", price:9,  free:false, cover:"kapak.png", desc:"Crossing the Sahara is no easy feat — especially when you're only 10. Follow Amara's incredible survival story.", pages:60, lang:"English" },
@@ -306,11 +294,12 @@ window.BOOKS = {
   "city-roads":      { title:"City Roads",        author:"Ada Nisa Özcan", price:9,  free:false, cover:"kapak.png", desc:"Learn about traffic, transportation, and how cities move through this colorful and educational e-book.", pages:48, lang:"English" },
 };
 
-window.openBookDetail = function(id) {
-  const book = window.BOOKS[id];
+function openBookDetail(id) {
+  const book = BOOKS[id];
   if (!book) return;
+
   const priceHtml = book.free
-    ? `<span class="book-detail-price free">FREE</span><button class="btn-detail-read" onclick="openPdfReader(book.pdfUrl, book.downloadUrl, book.title)">Read Now 📖</button>`
+    ? `<span class="book-detail-price free">FREE</span><button class="btn-detail-read" onclick="window.open('https://drive.google.com/file/d/1LH01Ob7W3_wligRpEzFJdNZnTu7fl4Hb/view?usp=sharing', '_blank')">Read Now 📖</button>`
     : `<span class="book-detail-price">$${book.price}</span>
        <button class="btn-detail-cart" onclick="addToCart('${book.title}',${book.price},'${book.author}'); closeBookDetail();">Add to Cart 🛒</button>
        <a href="subscription.html" class="btn-detail-sub">Subscribe & Save ✨</a>`;
@@ -337,7 +326,7 @@ window.openBookDetail = function(id) {
   document.body.style.overflow = 'hidden';
 }
 
-window.closeBookDetail = function() {
+function closeBookDetail() {
   document.getElementById('bookDetailModal').classList.remove('open');
   document.body.style.overflow = '';
 }
@@ -349,7 +338,7 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') { closeBookDetail(); closePaymentModal(); }
 });
 </script>
-<!-- AUTH MODAL -->
+
 <div class="modal-overlay" id="authModal">
   <div class="auth-modal" style="position:relative">
     <button class="btn-close-modal" onclick="closeAuthModal()">✕</button>
@@ -376,59 +365,5 @@ document.addEventListener('keydown', function(e) {
   </div>
 </div>
 <script type="module" src="auth.js"></script>
-
-<script>
-// Scroll to category if hash present in URL
-document.addEventListener('DOMContentLoaded', function() {
-  const hash = window.location.hash;
-  if (hash) {
-    setTimeout(() => {
-      const el = document.querySelector(hash);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 300);
-  }
-});
-</script>
-
-
-<!-- PDF READER MODAL -->
-<div class="modal-overlay" id="pdfReaderModal">
-  <div class="pdf-reader-modal" style="position:relative">
-    <div class="pdf-reader-header">
-      <h3 id="pdfReaderTitle">Reading</h3>
-      <div style="display:flex; gap:10px; align-items:center">
-        <a id="pdfDownloadBtn" href="#" download class="btn-detail-sub" style="font-size:0.85rem; padding:6px 14px;">⬇️ Download</a>
-        <button class="btn-close-modal" onclick="closePdfReader()" style="position:static; font-size:1.8rem;">✕</button>
-      </div>
-    </div>
-    <iframe id="pdfReaderFrame" src="" style="width:100%; height:100%; border:none; flex:1;"></iframe>
-  </div>
-</div>
-
-<script>
-window.openPdfReader = function(pdfUrl, downloadUrl, title) {
-  if (!pdfUrl) { alert("PDF coming soon!"); return; }
-  document.getElementById('pdfReaderTitle').textContent = title;
-  document.getElementById('pdfReaderFrame').src = pdfUrl;
-  document.getElementById('pdfDownloadBtn').href = downloadUrl || pdfUrl;
-  document.getElementById('pdfReaderModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-window.closePdfReader = function() {
-  document.getElementById('pdfReaderModal').classList.remove('open');
-  document.getElementById('pdfReaderFrame').src = '';
-  document.body.style.overflow = '';
-}
-document.addEventListener('click', e => {
-  if (e.target === document.getElementById('pdfReaderModal')) closePdfReader();
-});
-</script>
-
-
-
-<script>
-
-</script>
-
 </body>
 </html>
