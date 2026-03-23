@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ON'DA Book Store — Books</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html"><img src="logo.png" alt="ON'DA Book Store" width="110" height="110"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="books.html">Books</a></li>
+        <li class="nav-item"><a class="nav-link" href="aboutus.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="subscription.html">✨ Subscribe</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-3">
+        <form class="d-flex" onsubmit="event.preventDefault(); searchSite();"><input id="searchBox" class="form-control me-2" type="text" placeholder="Search..."><button class="btn btn-search" type="submit">Search</button></form>
+        <div id="authNavArea"></div>
+        <button id="cartBtn" class="btn-cart" onclick="openCart()">🛒 Cart <span class="cart-badge">0</span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>🛒 My Cart</h3><button class="btn-close-cart" onclick="closeCart()">✕</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">$0</span></div>
+    <button class="btn-checkout" onclick="openPaymentModal()">Proceed to Checkout →</button>
+    <button class="btn-view-cart" onclick="window.location.href='cart.html'; closeCart();">View Cart</button>
+  </div>
+</div>
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="payment-modal" style="position:relative">
+    <button class="btn-close-modal" onclick="closePaymentModal()">✕</button>
+    <div class="payment-form">
+      <h3>💳 Payment</h3>
+      <div class="payment-methods">
+        <button class="pay-method active" onclick="selectPayMethod(this)">💳 Credit Card</button>
+        <button class="pay-method" onclick="selectPayMethod(this)">🏦 Bank Transfer</button>
+      </div>
+      <div class="card-field"><label>Cardholder Name</label><input type="text" placeholder="Full Name"></div>
+      <div class="card-field"><label>Card Number</label><input type="text" placeholder="0000 0000 0000 0000" maxlength="19"></div>
+      <div class="card-row">
+        <div class="card-field"><label>Expiry Date</label><input type="text" placeholder="MM/YY" maxlength="5"></div>
+        <div class="card-field"><label>CVV</label><input type="text" placeholder="123" maxlength="3"></div>
+      </div>
+      <button class="btn-pay" onclick="completePurchase()">Complete Purchase 🎉</button>
+      <p class="secure-badge">🔒 Secured with 256-bit SSL encryption</p>
+    </div>
+    <div class="success-state" style="display:none">
+      <span class="checkmark">✅</span>
+      <h4>Order Confirmed!</h4>
+      <p>Thank you! Your e-books are now available in your account.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BOOK DETAIL MODAL -->
+<div class="modal-overlay" id="bookDetailModal">
+  <div class="book-detail-modal" style="position:relative">
+    <button class="btn-close-modal" onclick="closeBookDetail()">✕</button>
+    <div class="book-detail-inner" id="bookDetailInner">
+      <!-- filled by JS -->
+    </div>
+  </div>
+</div>
+
+<div class="container" id="content">
+  <div class="col-12 text-center mt-5 mb-4"><h1 class="anabaslik">Our E-Books</h1></div>
+
+  <!-- Free Books -->
+  <h2 class="category-title">📖 Free to Read</h2>
+  <p class="category-desc">Try these for free — no account needed.</p>
+  <div class="row g-4 mb-5">
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('lost-trail')" style="cursor:pointer">
+        <img src="kapak.png" alt="The Lost Trail">
+        <div class='free-badge'>FREE</div>
+        <div class="book-card-body">
+          <div class="book-card-title">The Lost Trail</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">FREE</span>
+            <button class="btn-book btn-free" onclick="openBookDetail('lost-trail')">Read Free</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('ocean-explorer')" style="cursor:pointer">
+        <img src="kapak.png" alt="Ocean Explorer">
+        <div class='free-badge'>FREE</div>
+        <div class="book-card-body">
+          <div class="book-card-title">Ocean Explorer</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">FREE</span>
+            <button class="btn-book btn-free" onclick="openBookDetail('ocean-explorer')">Read Free</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="category-title">⚡ Adventure Books</h2>
+  <div class="row g-4 mb-5">
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('mountain-quest')" style="cursor:pointer">
+        <img src="kapak.png" alt="Mountain Quest">
+        
+        <div class="book-card-body">
+          <div class="book-card-title">Mountain Quest</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">$9</span>
+            <button class="btn-book" onclick="openBookDetail('mountain-quest')">View Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('desert-journey')" style="cursor:pointer">
+        <img src="kapak.png" alt="Desert Journey">
+        
+        <div class="book-card-body">
+          <div class="book-card-title">Desert Journey</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">$9</span>
+            <button class="btn-book" onclick="openBookDetail('desert-journey')">View Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('dark-waters')" style="cursor:pointer">
+        <img src="kapak.png" alt="Dark Waters">
+        
+        <div class="book-card-body">
+          <div class="book-card-title">Dark Waters</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">$11</span>
+            <button class="btn-book" onclick="openBookDetail('dark-waters')">View Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="category-title">🎨 Activity Books</h2>
+  <div class="row g-4 mb-5">
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('puzzle-world')" style="cursor:pointer">
+        <img src="kapak.png" alt="Puzzle World">
+        
+        <div class="book-card-body">
+          <div class="book-card-title">Puzzle World</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">$8</span>
+            <button class="btn-book" onclick="openBookDetail('puzzle-world')">View Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('creative-hands')" style="cursor:pointer">
+        <img src="kapak.png" alt="Creative Hands">
+        
+        <div class="book-card-body">
+          <div class="book-card-title">Creative Hands</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">$10</span>
+            <button class="btn-book" onclick="openBookDetail('creative-hands')">View Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('color-create')" style="cursor:pointer">
+        <img src="kapak.png" alt="Color & Create">
+        
+        <div class="book-card-body">
+          <div class="book-card-title">Color & Create</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">$7</span>
+            <button class="btn-book" onclick="openBookDetail('color-create')">View Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="category-title">🚀 Action Books</h2>
+  <div class="row g-4 mb-5">
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('zero-hour')" style="cursor:pointer">
+        <img src="kapak.png" alt="Zero Hour">
+        
+        <div class="book-card-body">
+          <div class="book-card-title">Zero Hour</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">$13</span>
+            <button class="btn-book" onclick="openBookDetail('zero-hour')">View Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('thunder-strike')" style="cursor:pointer">
+        <img src="kapak.png" alt="Thunder Strike">
+        
+        <div class="book-card-body">
+          <div class="book-card-title">Thunder Strike</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">$12</span>
+            <button class="btn-book" onclick="openBookDetail('thunder-strike')">View Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="category-title">🚗 Vehicles & Traffic</h2>
+  <div class="row g-4 mb-5">
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('speed-machines')" style="cursor:pointer">
+        <img src="kapak.png" alt="Speed Machines">
+        
+        <div class="book-card-body">
+          <div class="book-card-title">Speed Machines</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">$10</span>
+            <button class="btn-book" onclick="openBookDetail('speed-machines')">View Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="book-card" onclick="openBookDetail('city-roads')" style="cursor:pointer">
+        <img src="kapak.png" alt="City Roads">
+        
+        <div class="book-card-body">
+          <div class="book-card-title">City Roads</div>
+          <div class="book-card-author">by Ada Nisa Özcan</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <span class="book-card-price">$9</span>
+            <button class="btn-book" onclick="openBookDetail('city-roads')">View Book</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer text-center">
+  <div class="container">
+    <p>© 2025 ON'DA Book Store. All rights reserved.</p>
+    <div class="mb-2">
+      <a href="contact.html" class="mx-2">Contact</a>
+      <a href="aboutus.html" class="mx-2">About Us</a>
+      <a href="subscription.html" class="mx-2">Subscribe</a>
+    </div>
+    <div class="social-icons">
+      <a href="#"><i class="bi bi-instagram"></i></a>
+      <a href="#"><i class="bi bi-twitter-x"></i></a>
+      <a href="#"><i class="bi bi-github"></i></a>
+    </div>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script type="module" src="firebase.js"></script>
+<script src="cart.js"></script>
+<script>
+// Book data - admin panelinden Firebase'e bağlanacak
+const BOOKS = {
+  "lost-trail":      { title:"The Lost Trail",    author:"Ada Nisa Özcan", price:0,  free:true,  cover:"kapak.png", desc:"A thrilling adventure story about a young explorer who discovers a hidden trail leading to an ancient mystery. Perfect for ages 7-12.", pages:48, lang:"English" },
+  "ocean-explorer":  { title:"Ocean Explorer",    author:"Ada Nisa Özcan", price:0,  free:true,  cover:"kapak.png", desc:"Dive into the deep blue with Emma as she discovers incredible sea creatures and solves the mystery of the missing lighthouse keeper.", pages:52, lang:"English" },
+  "mountain-quest":  { title:"Mountain Quest",    author:"Ada Nisa Özcan", price:9,  free:false, cover:"kapak.png", desc:"An epic journey through the highest mountains in the world. Join Kai and his friends as they race against time to reach the summit.", pages:64, lang:"English" },
+  "desert-journey":  { title:"Desert Journey",    author:"Ada Nisa Özcan", price:9,  free:false, cover:"kapak.png", desc:"Crossing the Sahara is no easy feat — especially when you're only 10. Follow Amara's incredible survival story.", pages:60, lang:"English" },
+  "dark-waters":     { title:"Dark Waters",       author:"Ada Nisa Özcan", price:11, free:false, cover:"kapak.png", desc:"Mystery, suspense, and a sunken pirate ship. Can Leo and his team find the treasure before it's too late?", pages:72, lang:"English" },
+  "puzzle-world":    { title:"Puzzle World",      author:"Ada Nisa Özcan", price:8,  free:false, cover:"kapak.png", desc:"A fun-packed activity book with puzzles, mazes, word games and creative challenges for curious minds.", pages:80, lang:"English" },
+  "creative-hands":  { title:"Creative Hands",    author:"Ada Nisa Özcan", price:10, free:false, cover:"kapak.png", desc:"Draw, color, craft and create! This interactive activity book is packed with projects for young artists.", pages:88, lang:"English" },
+  "color-create":    { title:"Color & Create",    author:"Ada Nisa Özcan", price:7,  free:false, cover:"kapak.png", desc:"A beautiful coloring and activity book inspired by nature, animals, and the world around us.", pages:56, lang:"English" },
+  "zero-hour":       { title:"Zero Hour",         author:"Ada Nisa Özcan", price:13, free:false, cover:"kapak.png", desc:"A heart-pounding action story set in a future city where one kid must stop a digital blackout before midnight.", pages:96, lang:"English" },
+  "thunder-strike":  { title:"Thunder Strike",    author:"Ada Nisa Özcan", price:12, free:false, cover:"kapak.png", desc:"Superheroes, storms, and secrets. When lightning gives Maya extraordinary powers, she must decide how to use them.", pages:88, lang:"English" },
+  "speed-machines":  { title:"Speed Machines",    author:"Ada Nisa Özcan", price:10, free:false, cover:"kapak.png", desc:"From racing cars to rocket ships — an exciting illustrated guide to the fastest machines ever built.", pages:64, lang:"English" },
+  "city-roads":      { title:"City Roads",        author:"Ada Nisa Özcan", price:9,  free:false, cover:"kapak.png", desc:"Learn about traffic, transportation, and how cities move through this colorful and educational e-book.", pages:48, lang:"English" },
+};
+
+function openBookDetail(id) {
+  const book = BOOKS[id];
+  if (!book) return;
+  const priceHtml = book.free
+    ? `<span class="book-detail-price free">FREE</span><button class="btn-detail-read" onclick="alert('Reading feature coming soon! 📖')">Read Now 📖</button>`
+    : `<span class="book-detail-price">$${book.price}</span>
+       <button class="btn-detail-cart" onclick="addToCart('${book.title}',${book.price},'${book.author}'); closeBookDetail();">Add to Cart 🛒</button>
+       <a href="subscription.html" class="btn-detail-sub">Subscribe & Save ✨</a>`;
+
+  document.getElementById('bookDetailInner').innerHTML = `
+    <div class="book-detail-layout">
+      <div class="book-detail-cover">
+        <img src="${book.cover}" alt="${book.title}">
+      </div>
+      <div class="book-detail-info">
+        <h2 class="book-detail-title">${book.title}</h2>
+        <p class="book-detail-author">by ${book.author}</p>
+        <div class="book-detail-meta">
+          <span>📄 ${book.pages} pages</span>
+          <span>🌐 ${book.lang}</span>
+          ${book.free ? '<span class="badge-free">FREE</span>' : ''}
+        </div>
+        <p class="book-detail-desc">${book.desc}</p>
+        <div class="book-detail-actions">${priceHtml}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('bookDetailModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBookDetail() {
+  document.getElementById('bookDetailModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('click', function(e) {
+  if (e.target === document.getElementById('bookDetailModal')) closeBookDetail();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { closeBookDetail(); closePaymentModal(); }
+});
+</script>
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="auth-modal" style="position:relative">
+    <button class="btn-close-modal" onclick="closeAuthModal()">✕</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="signin" onclick="showAuthTab('signin')">Sign In</button>
+      <button class="auth-tab" data-tab="signup" onclick="showAuthTab('signup')">Sign Up</button>
+    </div>
+    <button class="btn-google-auth" onclick="signInWithGoogle()"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20"> Continue with Google</button>
+    <div class="auth-divider"><span>or</span></div>
+    <div id="signinForm">
+      <div class="card-field"><label>Email</label><input type="email" id="siEmail" class="form-control" placeholder="you@example.com"></div>
+      <div class="card-field"><label>Password</label><input type="password" id="siPass" class="form-control" placeholder="••••••••"></div>
+      <p id="authError" class="auth-error"></p>
+      <button class="btn-pay" onclick="handleSignIn()">Sign In</button>
+    </div>
+    <div id="signupForm" style="display:none">
+      <div class="card-field"><label>Full Name</label><input type="text" id="suName" class="form-control" placeholder="Your name"></div>
+      <div class="card-field"><label>Email</label><input type="email" id="suEmail" class="form-control" placeholder="you@example.com"></div>
+      <div class="card-field"><label>Password</label><input type="password" id="suPass" class="form-control" placeholder="Min. 6 characters"></div>
+      <div class="card-field"><label>Confirm Password</label><input type="password" id="suPass2" class="form-control" placeholder="Repeat password"></div>
+      <p id="authError" class="auth-error"></p>
+      <button class="btn-pay" onclick="handleSignUp()">Create Account</button>
+    </div>
+  </div>
+</div>
+<script type="module" src="auth.js"></script>
+</body>
+</html>

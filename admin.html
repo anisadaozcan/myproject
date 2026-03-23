@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ON'DA Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+    :root {
+      --navy:#2e4b88; --navy-light:#4a6ab8; --accent:#8bc1ff; --accent2:#dcacf8;
+      --bg:#f4f7ff; --card:#fff; --radius:16px; --shadow:0 4px 20px rgba(46,75,136,0.1);
+    }
+    * { box-sizing:border-box; }
+    body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--navy); margin:0; }
+
+    /* ── LOGIN ── */
+    .login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+    .login-card { background:var(--card); border-radius:24px; padding:3rem; width:100%; max-width:400px; box-shadow:var(--shadow); text-align:center; }
+    .login-card h2 { font-family:'Playfair Display',serif; font-style:italic; margin-bottom:0.3rem; }
+    .login-card p { color:#7a8db0; margin-bottom:2rem; font-size:0.9rem; }
+    .login-input { width:100%; padding:12px 16px; border:1.5px solid #dce6f5; border-radius:10px; font-family:'DM Sans',sans-serif; margin-bottom:1rem; font-size:0.95rem; }
+    .login-input:focus { outline:none; border-color:var(--accent); }
+    .btn-login { width:100%; padding:13px; background:var(--navy); color:#fff; border:none; border-radius:12px; font-family:'DM Sans',sans-serif; font-weight:700; cursor:pointer; transition:background 0.2s; }
+    .btn-login:hover { background:var(--navy-light); }
+    .login-error { color:#e74c3c; font-size:0.85rem; margin-top:0.5rem; display:none; }
+
+    /* ── LAYOUT ── */
+    .admin-layout { display:flex; min-height:100vh; }
+    .sidebar { width:240px; background:var(--navy); color:#fff; padding:1.5rem 1rem; flex-shrink:0; position:fixed; top:0; left:0; height:100vh; overflow-y:auto; }
+    .sidebar-logo { font-family:'Playfair Display',serif; font-style:italic; font-size:1.3rem; margin-bottom:2rem; text-align:center; opacity:0.95; }
+    .sidebar-logo span { font-size:0.7rem; display:block; opacity:0.6; margin-top:2px; font-style:normal; }
+    .nav-item-admin { display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:10px; cursor:pointer; margin-bottom:4px; transition:background 0.2s; font-size:0.95rem; }
+    .nav-item-admin:hover, .nav-item-admin.active { background:rgba(255,255,255,0.15); }
+    .nav-item-admin i { font-size:1.1rem; }
+
+    .main-area { margin-left:240px; flex:1; padding:2rem; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; }
+    .topbar h1 { font-family:'Playfair Display',serif; font-size:1.8rem; margin:0; }
+    .btn-primary-admin { background:var(--navy); color:#fff; border:none; border-radius:10px; padding:10px 20px; font-family:'DM Sans',sans-serif; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:8px; transition:background 0.2s; }
+    .btn-primary-admin:hover { background:var(--navy-light); }
+
+    /* ── STATS ── */
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1rem; margin-bottom:2rem; }
+    .stat-card { background:var(--card); border-radius:var(--radius); padding:1.5rem; box-shadow:var(--shadow); text-align:center; }
+    .stat-card .stat-num { font-size:2rem; font-weight:700; color:var(--navy); }
+    .stat-card .stat-label { font-size:0.8rem; color:#7a8db0; margin-top:4px; }
+    .stat-card .stat-icon { font-size:1.8rem; margin-bottom:0.5rem; }
+
+    /* ── BOOKS TABLE ── */
+    .section-card { background:var(--card); border-radius:var(--radius); padding:1.5rem; box-shadow:var(--shadow); margin-bottom:2rem; }
+    .section-card h3 { font-family:'Playfair Display',serif; margin-bottom:1rem; }
+    .books-table { width:100%; border-collapse:collapse; }
+    .books-table th { background:#f4f7ff; padding:10px 12px; text-align:left; font-size:0.8rem; color:#7a8db0; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+    .books-table td { padding:12px; border-bottom:1px solid #f0f4ff; vertical-align:middle; }
+    .books-table tr:last-child td { border-bottom:none; }
+    .books-table tr:hover td { background:#fafbff; }
+    .book-cover-thumb { width:40px; height:52px; object-fit:cover; border-radius:6px; }
+    .badge-free { background:#d4f8e1; color:#27ae60; border-radius:6px; padding:2px 8px; font-size:0.75rem; font-weight:600; }
+    .badge-paid { background:#e8f0ff; color:var(--navy); border-radius:6px; padding:2px 8px; font-size:0.75rem; font-weight:600; }
+    .btn-edit { background:none; border:1.5px solid var(--accent); color:var(--navy); border-radius:8px; padding:5px 12px; cursor:pointer; font-size:0.8rem; font-weight:600; transition:all 0.2s; }
+    .btn-edit:hover { background:var(--accent); }
+    .btn-delete { background:none; border:1.5px solid #ffb3b3; color:#e74c3c; border-radius:8px; padding:5px 12px; cursor:pointer; font-size:0.8rem; font-weight:600; margin-left:6px; transition:all 0.2s; }
+    .btn-delete:hover { background:#ffb3b3; }
+
+    /* ── MODAL ── */
+    .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; display:none; align-items:center; justify-content:center; padding:1rem; }
+    .modal-bg.open { display:flex; }
+    .modal-box { background:#fff; border-radius:20px; padding:2rem; width:100%; max-width:560px; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.2); animation:fadeUp 0.3s ease; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .modal-box h3 { font-family:'Playfair Display',serif; margin-bottom:1.5rem; }
+    .form-label-admin { font-weight:600; font-size:0.85rem; color:var(--navy); display:block; margin-bottom:5px; }
+    .form-input-admin { width:100%; padding:10px 14px; border:1.5px solid #dce6f5; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:0.9rem; margin-bottom:1rem; transition:border-color 0.2s; }
+    .form-input-admin:focus { outline:none; border-color:var(--accent); }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .btn-save { background:var(--navy); color:#fff; border:none; border-radius:10px; padding:12px 24px; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif; transition:background 0.2s; }
+    .btn-save:hover { background:var(--navy-light); }
+    .btn-cancel { background:none; border:1.5px solid #dce6f5; border-radius:10px; padding:12px 24px; cursor:pointer; font-family:'DM Sans',sans-serif; margin-left:8px; }
+
+    /* ── ORDERS ── */
+    .order-row { padding:1rem 0; border-bottom:1px solid #f0f4ff; }
+    .order-row:last-child { border-bottom:none; }
+    .order-id { font-size:0.75rem; color:#7a8db0; }
+    .order-books { font-weight:600; color:var(--navy); }
+    .order-total { font-weight:700; color:var(--navy-light); }
+    .order-date { font-size:0.8rem; color:#7a8db0; }
+    .status-badge { border-radius:6px; padding:2px 10px; font-size:0.75rem; font-weight:600; }
+    .status-pending { background:#fff3cd; color:#856404; }
+    .status-completed { background:#d4f8e1; color:#27ae60; }
+
+    /* ── TABS ── */
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+
+    @media (max-width:768px) {
+      .sidebar { width:100%; height:auto; position:relative; }
+      .main-area { margin-left:0; }
+      .admin-layout { flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div style="font-size:3rem; margin-bottom:0.5rem;">📚</div>
+    <h2>ON'DA Admin</h2>
+    <p>Sign in to manage your bookstore</p>
+    <input class="login-input" type="email" id="adminEmail" placeholder="Admin email">
+    <input class="login-input" type="password" id="adminPass" placeholder="Password">
+    <button class="btn-login" onclick="adminLogin()">Sign In</button>
+    <p class="login-error" id="loginError">Invalid credentials. Please try again.</p>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-layout" id="adminPanel" style="display:none">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">ON'DA <span>Admin Panel</span></div>
+    <div class="nav-item-admin active" onclick="showTab('dashboard',this)"><i class="bi bi-grid"></i> Dashboard</div>
+    <div class="nav-item-admin" onclick="showTab('books',this)"><i class="bi bi-book"></i> Books</div>
+    <div class="nav-item-admin" onclick="showTab('orders',this)"><i class="bi bi-bag"></i> Orders</div>
+    <div class="nav-item-admin" onclick="showTab('subscribers',this)"><i class="bi bi-people"></i> Subscribers</div>
+    <div style="margin-top:auto; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.1); margin-top:2rem;">
+      <div class="nav-item-admin" onclick="window.open('index.html','_blank')"><i class="bi bi-box-arrow-up-right"></i> View Site</div>
+      <div class="nav-item-admin" onclick="adminLogout()"><i class="bi bi-box-arrow-left"></i> Sign Out</div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main-area">
+
+    <!-- DASHBOARD TAB -->
+    <div class="tab-content active" id="tab-dashboard">
+      <div class="topbar"><h1>Dashboard</h1><span style="color:#7a8db0;font-size:0.9rem;" id="welcomeMsg"></span></div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-num" id="statBooks">0</div><div class="stat-label">Total Books</div></div>
+        <div class="stat-card"><div class="stat-icon">🛒</div><div class="stat-num" id="statOrders">0</div><div class="stat-label">Total Orders</div></div>
+        <div class="stat-card"><div class="stat-icon">✨</div><div class="stat-num" id="statSubs">0</div><div class="stat-label">Subscribers</div></div>
+        <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-num" id="statRevenue">$0</div><div class="stat-label">Revenue</div></div>
+      </div>
+      <div class="section-card">
+        <h3>Recent Orders</h3>
+        <div id="recentOrders"><p style="color:#7a8db0; text-align:center; padding:2rem;">Loading orders...</p></div>
+      </div>
+    </div>
+
+    <!-- BOOKS TAB -->
+    <div class="tab-content" id="tab-books">
+      <div class="topbar">
+        <h1>Books</h1>
+        <button class="btn-primary-admin" onclick="openBookModal()"><i class="bi bi-plus-lg"></i> Add New Book</button>
+      </div>
+      <div class="section-card">
+        <table class="books-table">
+          <thead><tr><th>Cover</th><th>Title</th><th>Author</th><th>Price</th><th>Pages</th><th>Type</th><th>Actions</th></tr></thead>
+          <tbody id="booksTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ORDERS TAB -->
+    <div class="tab-content" id="tab-orders">
+      <div class="topbar"><h1>Orders</h1></div>
+      <div class="section-card">
+        <div id="ordersListAdmin"><p style="color:#7a8db0; text-align:center; padding:2rem;">Loading orders...</p></div>
+      </div>
+    </div>
+
+    <!-- SUBSCRIBERS TAB -->
+    <div class="tab-content" id="tab-subscribers">
+      <div class="topbar"><h1>Subscribers</h1></div>
+      <div class="section-card">
+        <div id="subsListAdmin"><p style="color:#7a8db0; text-align:center; padding:2rem;">Loading subscribers...</p></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BOOK ADD/EDIT MODAL -->
+<div class="modal-bg" id="bookModal">
+  <div class="modal-box">
+    <h3 id="bookModalTitle">Add New Book</h3>
+    <input type="hidden" id="editBookId">
+
+    <label class="form-label-admin">Book Title *</label>
+    <input class="form-input-admin" type="text" id="bTitle" placeholder="e.g. The Lost Trail">
+
+    <label class="form-label-admin">Author *</label>
+    <input class="form-input-admin" type="text" id="bAuthor" placeholder="e.g. Ada Nisa Özcan">
+
+    <div class="form-row">
+      <div>
+        <label class="form-label-admin">Price ($) — 0 for free</label>
+        <input class="form-input-admin" type="number" id="bPrice" placeholder="9" min="0">
+      </div>
+      <div>
+        <label class="form-label-admin">Number of Pages</label>
+        <input class="form-input-admin" type="number" id="bPages" placeholder="64">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label class="form-label-admin">Language</label>
+        <select class="form-input-admin" id="bLang">
+          <option>English</option>
+          <option>Turkish</option>
+          <option>Spanish</option>
+          <option>French</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label-admin">Category</label>
+        <select class="form-input-admin" id="bCategory">
+          <option>Adventure</option>
+          <option>Activity</option>
+          <option>Action</option>
+          <option>Vehicles & Traffic</option>
+          <option>Educational</option>
+        </select>
+      </div>
+    </div>
+
+    <label class="form-label-admin">Cover Image URL (or filename)</label>
+    <input class="form-input-admin" type="text" id="bCover" placeholder="kapak.png">
+
+    <label class="form-label-admin">PDF File URL (Firebase Storage link)</label>
+    <input class="form-input-admin" type="text" id="bPdf" placeholder="https://firebasestorage...">
+
+    <label class="form-label-admin">Description</label>
+    <textarea class="form-input-admin" id="bDesc" rows="4" placeholder="A short description of the book..."></textarea>
+
+    <div style="margin-top:0.5rem;">
+      <button class="btn-save" onclick="saveBook()">Save Book</button>
+      <button class="btn-cancel" onclick="closeBookModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, serverTimestamp, orderBy, query } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDhBmp8esSlzkOUqZo41Qx1N0lxc2zvJDY",
+  authDomain: "ondabooks.firebaseapp.com",
+  projectId: "ondabooks",
+  storageBucket: "ondabooks.firebasestorage.app",
+  messagingSenderId: "183667962834",
+  appId: "1:183667962834:web:1d64a9932137224cee4e0b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ── ADMIN CREDENTIALS (temporary — move to Firebase Auth later) ──
+const ADMIN_EMAIL = "admin@ondabooks.com";
+const ADMIN_PASS  = "onda2025!";
+
+window.adminLogin = function() {
+  const email = document.getElementById('adminEmail').value.trim();
+  const pass  = document.getElementById('adminPass').value;
+  if (email === ADMIN_EMAIL && pass === ADMIN_PASS) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'flex';
+    document.getElementById('welcomeMsg').textContent = `Welcome back, Ada Nisa 👋`;
+    loadAll();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+};
+
+window.adminLogout = function() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminPanel').style.display = 'none';
+};
+
+// Enter key login
+document.getElementById('adminPass').addEventListener('keydown', e => { if(e.key==='Enter') adminLogin(); });
+
+// ── TAB SWITCHER ──
+window.showTab = function(name, el) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-item-admin').forEach(n => n.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  el.classList.add('active');
+};
+
+// ── LOCAL BOOK STORE (books.js data mirrored here, later Firebase) ──
+let localBooks = [
+  { id:"lost-trail",     title:"The Lost Trail",    author:"Ada Nisa Özcan", price:0,  pages:48, lang:"English", category:"Adventure",         cover:"kapak.png", pdf:"", desc:"A thrilling adventure story about a young explorer.", free:true  },
+  { id:"ocean-explorer", title:"Ocean Explorer",    author:"Ada Nisa Özcan", price:0,  pages:52, lang:"English", category:"Adventure",         cover:"kapak.png", pdf:"", desc:"Dive into the deep blue with Emma.",                  free:true  },
+  { id:"mountain-quest", title:"Mountain Quest",    author:"Ada Nisa Özcan", price:9,  pages:64, lang:"English", category:"Adventure",         cover:"kapak.png", pdf:"", desc:"An epic journey through the highest mountains.",      free:false },
+  { id:"desert-journey", title:"Desert Journey",    author:"Ada Nisa Özcan", price:9,  pages:60, lang:"English", category:"Adventure",         cover:"kapak.png", pdf:"", desc:"Crossing the Sahara at only 10.",                    free:false },
+  { id:"dark-waters",    title:"Dark Waters",       author:"Ada Nisa Özcan", price:11, pages:72, lang:"English", category:"Adventure",         cover:"kapak.png", pdf:"", desc:"Mystery and a sunken pirate ship.",                  free:false },
+  { id:"puzzle-world",   title:"Puzzle World",      author:"Ada Nisa Özcan", price:8,  pages:80, lang:"English", category:"Activity",          cover:"kapak.png", pdf:"", desc:"Puzzles, mazes, word games for curious minds.",      free:false },
+  { id:"creative-hands", title:"Creative Hands",    author:"Ada Nisa Özcan", price:10, pages:88, lang:"English", category:"Activity",          cover:"kapak.png", pdf:"", desc:"Draw, color, craft and create!",                    free:false },
+  { id:"color-create",   title:"Color & Create",    author:"Ada Nisa Özcan", price:7,  pages:56, lang:"English", category:"Activity",          cover:"kapak.png", pdf:"", desc:"Coloring book inspired by nature.",                  free:false },
+  { id:"zero-hour",      title:"Zero Hour",         author:"Ada Nisa Özcan", price:13, pages:96, lang:"English", category:"Action",            cover:"kapak.png", pdf:"", desc:"Stop a digital blackout before midnight.",          free:false },
+  { id:"thunder-strike", title:"Thunder Strike",    author:"Ada Nisa Özcan", price:12, pages:88, lang:"English", category:"Action",            cover:"kapak.png", pdf:"", desc:"Superheroes, storms, and secrets.",                  free:false },
+  { id:"speed-machines", title:"Speed Machines",    author:"Ada Nisa Özcan", price:10, pages:64, lang:"English", category:"Vehicles & Traffic",cover:"kapak.png", pdf:"", desc:"Fastest machines ever built.",                       free:false },
+  { id:"city-roads",     title:"City Roads",        author:"Ada Nisa Özcan", price:9,  pages:48, lang:"English", category:"Vehicles & Traffic",cover:"kapak.png", pdf:"", desc:"How cities move — colorful and educational.",        free:false },
+];
+
+function renderBooksTable() {
+  const tbody = document.getElementById('booksTableBody');
+  tbody.innerHTML = localBooks.map(b => `
+    <tr>
+      <td><img src="${b.cover}" class="book-cover-thumb" onerror="this.src='logo.png'"></td>
+      <td style="font-weight:600">${b.title}</td>
+      <td>${b.author}</td>
+      <td>${b.price===0?'Free':'$'+b.price}</td>
+      <td>${b.pages}</td>
+      <td><span class="${b.price===0?'badge-free':'badge-paid'}">${b.price===0?'FREE':'PAID'}</span></td>
+      <td>
+        <button class="btn-edit" onclick="editBook('${b.id}')">✏️ Edit</button>
+        <button class="btn-delete" onclick="deleteBook('${b.id}')">🗑</button>
+      </td>
+    </tr>`).join('');
+  document.getElementById('statBooks').textContent = localBooks.length;
+}
+
+window.openBookModal = function(bookId=null) {
+  document.getElementById('bookModalTitle').textContent = bookId ? 'Edit Book' : 'Add New Book';
+  document.getElementById('editBookId').value = bookId || '';
+  if (bookId) {
+    const b = localBooks.find(x=>x.id===bookId);
+    if (b) {
+      document.getElementById('bTitle').value  = b.title;
+      document.getElementById('bAuthor').value = b.author;
+      document.getElementById('bPrice').value  = b.price;
+      document.getElementById('bPages').value  = b.pages;
+      document.getElementById('bLang').value   = b.lang;
+      document.getElementById('bCategory').value = b.category;
+      document.getElementById('bCover').value  = b.cover;
+      document.getElementById('bPdf').value    = b.pdf||'';
+      document.getElementById('bDesc').value   = b.desc;
+    }
+  } else {
+    ['bTitle','bAuthor','bPrice','bPages','bCover','bPdf','bDesc'].forEach(id=>document.getElementById(id).value='');
+  }
+  document.getElementById('bookModal').classList.add('open');
+};
+
+window.editBook   = (id) => openBookModal(id);
+window.closeBookModal = () => document.getElementById('bookModal').classList.remove('open');
+
+window.saveBook = function() {
+  const id = document.getElementById('editBookId').value;
+  const data = {
+    title:    document.getElementById('bTitle').value.trim(),
+    author:   document.getElementById('bAuthor').value.trim(),
+    price:    parseFloat(document.getElementById('bPrice').value)||0,
+    pages:    parseInt(document.getElementById('bPages').value)||0,
+    lang:     document.getElementById('bLang').value,
+    category: document.getElementById('bCategory').value,
+    cover:    document.getElementById('bCover').value.trim()||'kapak.png',
+    pdf:      document.getElementById('bPdf').value.trim(),
+    desc:     document.getElementById('bDesc').value.trim(),
+    free:     (parseFloat(document.getElementById('bPrice').value)||0)===0,
+  };
+  if (!data.title || !data.author) { alert('Title and author are required!'); return; }
+
+  if (id) {
+    const idx = localBooks.findIndex(b=>b.id===id);
+    if (idx>-1) localBooks[idx] = {...localBooks[idx], ...data};
+  } else {
+    data.id = data.title.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+    localBooks.push(data);
+  }
+
+  // Save to Firebase
+  addDoc(collection(db,'books'), {...data, updatedAt:serverTimestamp()})
+    .then(()=>console.log('Book saved to Firebase'))
+    .catch(e=>console.warn('Firebase save error:',e));
+
+  renderBooksTable();
+  closeBookModal();
+  alert('✅ Book saved!');
+};
+
+window.deleteBook = function(id) {
+  if (!confirm('Delete this book?')) return;
+  localBooks = localBooks.filter(b=>b.id!==id);
+  renderBooksTable();
+};
+
+// ── ORDERS ──
+async function loadOrders() {
+  try {
+    const q = query(collection(db,'orders'), orderBy('createdAt','desc'));
+    const snap = await getDocs(q);
+    const orders = snap.docs.map(d=>({id:d.id,...d.data()}));
+
+    document.getElementById('statOrders').textContent = orders.length;
+    const revenue = orders.reduce((s,o)=>s+(o.total||0),0);
+    document.getElementById('statRevenue').textContent = '$'+revenue.toFixed(0);
+
+    const recentHtml = orders.slice(0,5).map(o=>`
+      <div class="order-row">
+        <div style="display:flex;justify-content:space-between;align-items:start">
+          <div>
+            <div class="order-books">${(o.items||[]).map(i=>i.title).join(', ')||'—'}</div>
+            <div class="order-id">Order #${o.id.slice(0,8).toUpperCase()}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="order-total">$${(o.total||0).toFixed(0)}</div>
+            <span class="status-badge status-${o.status||'pending'}">${o.status||'pending'}</span>
+          </div>
+        </div>
+      </div>`).join('') || '<p style="color:#7a8db0;text-align:center;padding:1rem;">No orders yet.</p>';
+
+    document.getElementById('recentOrders').innerHTML = recentHtml;
+    document.getElementById('ordersListAdmin').innerHTML = orders.length>0 ? orders.map(o=>`
+      <div class="order-row">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="order-books">${(o.items||[]).map(i=>i.title).join(', ')||'—'}</div>
+            <div class="order-id">Order #${o.id.slice(0,8).toUpperCase()} · ${o.paymentMethod||'Card'}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="order-total">$${(o.total||0).toFixed(0)}</div>
+            <span class="status-badge status-${o.status||'pending'}">${o.status||'pending'}</span>
+          </div>
+        </div>
+      </div>`).join('') : '<p style="color:#7a8db0;text-align:center;padding:2rem;">No orders yet.</p>';
+  } catch(e) {
+    console.warn('Could not load orders:', e);
+    document.getElementById('recentOrders').innerHTML = '<p style="color:#7a8db0;text-align:center;padding:1rem;">Connect to Firebase to see orders.</p>';
+  }
+}
+
+// ── SUBSCRIBERS ──
+async function loadSubscribers() {
+  try {
+    const snap = await getDocs(collection(db,'subscriptions'));
+    const subs = snap.docs.map(d=>({id:d.id,...d.data()}));
+    document.getElementById('statSubs').textContent = subs.length;
+    document.getElementById('subsListAdmin').innerHTML = subs.length>0 ? subs.map(s=>`
+      <div class="order-row">
+        <div style="display:flex;justify-content:space-between">
+          <div><div class="order-books">${s.plan||'—'} Plan</div><div class="order-id">${s.email||'—'} · ${s.billing||'monthly'}</div></div>
+          <span class="status-badge status-${s.status||'pending'}">${s.status||'pending'}</span>
+        </div>
+      </div>`).join('') : '<p style="color:#7a8db0;text-align:center;padding:2rem;">No subscribers yet.</p>';
+  } catch(e) { console.warn('Could not load subscribers:', e); }
+}
+
+function loadAll() { renderBooksTable(); loadOrders(); loadSubscribers(); }
+</script>
+</body>
+</html>
