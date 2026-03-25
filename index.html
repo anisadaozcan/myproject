@@ -22,14 +22,13 @@
         <li class="nav-item"><a class="nav-link" href="subscription.html">✨ Subscribe</a></li>
       </ul>
       <div class="d-flex align-items-center gap-3">
-        <form class="d-flex" onsubmit="event.preventDefault(); searchSite();"><input id="searchBox" class="form-control me-2" type="text" placeholder="Search..."><button class="btn btn-search" type="submit">Search</button></form>
+        <form class="d-flex" onsubmit="event.preventDefault(); doSearch();"><input id="searchBox" class="form-control me-2" type="text" placeholder="Search books, age..."><button class="btn btn-search" type="submit">Search</button></form>
         <div id="authNavArea"></div>
         <button id="cartBtn" class="btn-cart" onclick="openCart()">🛒 Cart <span class="cart-badge">0</span></button>
       </div>
     </div>
   </div>
 </nav>
-<!-- CART SIDEBAR -->
 <div class="cart-overlay" id="cartOverlay"></div>
 <div class="cart-sidebar" id="cartSidebar">
   <div class="cart-header"><h3>🛒 My Cart</h3><button class="btn-close-cart" onclick="closeCart()">✕</button></div>
@@ -40,7 +39,6 @@
     <button class="btn-view-cart" onclick="window.location.href='cart.html'; closeCart();">View Cart</button>
   </div>
 </div>
-<!-- PAYMENT MODAL -->
 <div class="modal-overlay" id="paymentModal">
   <div class="payment-modal" style="position:relative">
     <button class="btn-close-modal" onclick="closePaymentModal()">✕</button>
@@ -62,118 +60,10 @@
     <div class="success-state" style="display:none">
       <span class="checkmark">✅</span>
       <h4>Order Confirmed!</h4>
-      <p>Thank you! Your e-books are now available in your account.</p>
+      <p>Your e-books are now available in your library!</p>
     </div>
   </div>
 </div>
-
-<div class="container" id="content">
-  <div class="row"><div class="col-12 text-center mt-5 mb-3"><h1 class="anabaslik">Welcome to Our Adventures</h1></div></div>
-
-  <div class="category-section">
-    <div class="carousel-wrapper">
-      <div id="carousel1" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carousel1" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carousel1" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carousel1" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active"><img src="kapak.png" alt="Adventure Book 1"></div>
-          <div class="carousel-item"><img src="kapak.png" alt="Adventure Book 2"></div>
-          <div class="carousel-item"><img src="kapak.png" alt="Adventure Book 3"></div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carousel1" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carousel1" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></button>
-      </div>
-    </div>
-    <h2 class="category-title mt-4">Adventure Books</h2>
-    <p class="category-desc">Dive into thrilling worlds where every page becomes a new quest.</p>
-  </div>
-
-  <div class="category-section">
-    <div class="carousel-wrapper">
-      <div id="carousel2" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carousel2" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carousel2" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carousel2" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active"><img src="kapak.png" alt="Activity Book 1"></div>
-          <div class="carousel-item"><img src="kapak.png" alt="Activity Book 2"></div>
-          <div class="carousel-item"><img src="kapak.png" alt="Activity Book 3"></div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carousel2" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carousel2" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></button>
-      </div>
-    </div>
-    <h2 class="category-title mt-4">Activity Books</h2>
-    <p class="category-desc">Engage young minds with our curated activity books. Perfect for all ages.</p>
-  </div>
-
-  <div class="category-section">
-    <div class="carousel-wrapper">
-      <div id="carousel3" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carousel3" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carousel3" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carousel3" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active"><img src="kapak.png" alt="Action Book 1"></div>
-          <div class="carousel-item"><img src="kapak.png" alt="Action Book 2"></div>
-          <div class="carousel-item"><img src="kapak.png" alt="Action Book 3"></div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carousel3" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carousel3" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></button>
-      </div>
-    </div>
-    <h2 class="category-title mt-4">Action Books</h2>
-    <p class="category-desc">Heart-pounding stories and fast-paced narratives that will leave you breathless.</p>
-  </div>
-
-  <div class="category-section">
-    <div class="carousel-wrapper">
-      <div id="carousel4" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-          <button type="button" data-bs-target="#carousel4" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-          <button type="button" data-bs-target="#carousel4" data-bs-slide-to="1" aria-label="Slide 2"></button>
-          <button type="button" data-bs-target="#carousel4" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-          <div class="carousel-item active"><img src="kapak.png" alt="Vehicles Book 1"></div>
-          <div class="carousel-item"><img src="kapak.png" alt="Vehicles Book 2"></div>
-          <div class="carousel-item"><img src="kapak.png" alt="Vehicles Book 3"></div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carousel4" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span class="visually-hidden">Previous</span></button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carousel4" data-bs-slide="next"><span class="carousel-control-next-icon"></span><span class="visually-hidden">Next</span></button>
-      </div>
-    </div>
-    <h2 class="category-title mt-4">Vehicles &amp; Traffic Books</h2>
-    <p class="category-desc">Explore the fascinating world of vehicles and transportation.</p>
-  </div>
-</div>
-
-<footer class="footer text-center">
-  <div class="container">
-    <p>© 2025 ON'DA Book Store. All rights reserved.</p>
-    <div class="mb-2">
-      <a href="contact.html" class="mx-2">Contact</a>
-      <a href="aboutus.html" class="mx-2">About Us</a>
-      <a href="subscription.html" class="mx-2">Subscribe</a>
-    </div>
-    <div class="social-icons">
-      <a href="#"><i class="bi bi-instagram"></i></a>
-      <a href="#"><i class="bi bi-twitter-x"></i></a>
-      <a href="#"><i class="bi bi-github"></i></a>
-    </div>
-  </div>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script type="module" src="firebase.js"></script>
-<script src="cart.js"></script>
-<!-- AUTH MODAL -->
 <div class="modal-overlay" id="authModal">
   <div class="auth-modal" style="position:relative">
     <button class="btn-close-modal" onclick="closeAuthModal()">✕</button>
@@ -199,6 +89,133 @@
     </div>
   </div>
 </div>
+
+<div class="container" id="content">
+  <div class="col-12 text-center mt-5 mb-4">
+    <h1 class="anabaslik">Welcome to Our Adventures</h1>
+    <p class="category-desc">Discover magical e-books crafted for young readers around the world.</p>
+  </div>
+
+  <!-- GENRE CATEGORIES — 2 per row -->
+  <h2 class="category-title mb-3">📚 Browse by Genre</h2>
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="cat-card" onclick="goToCategory('adventure')">
+        <div class="cat-card-emoji">⚡</div>
+        <div class="cat-card-info">
+          <div class="cat-card-title">Adventure Books</div>
+          <div class="cat-card-desc">Thrilling quests and brave explorers</div>
+        </div>
+        <span class="cat-card-arrow">→</span>
+      </div>
+    </div>    <div class="col-md-6 mb-4">
+      <div class="cat-card" onclick="goToCategory('activity')">
+        <div class="cat-card-emoji">🎨</div>
+        <div class="cat-card-info">
+          <div class="cat-card-title">Activity Books</div>
+          <div class="cat-card-desc">Puzzles, coloring and creative fun</div>
+        </div>
+        <span class="cat-card-arrow">→</span>
+      </div>
+    </div>    <div class="col-md-6 mb-4">
+      <div class="cat-card" onclick="goToCategory('action')">
+        <div class="cat-card-emoji">🚀</div>
+        <div class="cat-card-info">
+          <div class="cat-card-title">Action Books</div>
+          <div class="cat-card-desc">Fast-paced stories full of excitement</div>
+        </div>
+        <span class="cat-card-arrow">→</span>
+      </div>
+    </div>    <div class="col-md-6 mb-4">
+      <div class="cat-card" onclick="goToCategory('vehicles')">
+        <div class="cat-card-emoji">🚗</div>
+        <div class="cat-card-info">
+          <div class="cat-card-title">Vehicles & Traffic</div>
+          <div class="cat-card-desc">Cars, trains and how cities move</div>
+        </div>
+        <span class="cat-card-arrow">→</span>
+      </div>
+    </div>    <div class="col-md-6 mb-4">
+      <div class="cat-card" onclick="goToCategory('free')">
+        <div class="cat-card-emoji">📖</div>
+        <div class="cat-card-info">
+          <div class="cat-card-title">Free to Read</div>
+          <div class="cat-card-desc">Start reading — completely free!</div>
+        </div>
+        <span class="cat-card-arrow">→</span>
+      </div>
+    </div>    <div class="col-md-6 mb-4">
+      <div class="cat-card" onclick="goToCategory('all')">
+        <div class="cat-card-emoji">✨</div>
+        <div class="cat-card-info">
+          <div class="cat-card-title">All Books</div>
+          <div class="cat-card-desc">Browse our full collection</div>
+        </div>
+        <span class="cat-card-arrow">→</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGE CATEGORIES -->
+  <h2 class="category-title mb-3 mt-4">🎂 Browse by Age</h2>
+  <div class="row justify-content-center">
+    <div class="col-6 col-md-3 mb-3">
+      <div class="age-card" onclick="goToCategory('age-2-4')">
+        <div class="age-emoji">🍼</div>
+        <div class="age-label">Toddlers</div>
+        <div class="age-range">Ages 2–4</div>
+      </div>
+    </div>    <div class="col-6 col-md-3 mb-3">
+      <div class="age-card" onclick="goToCategory('age-4-6')">
+        <div class="age-emoji">🌱</div>
+        <div class="age-label">Early Readers</div>
+        <div class="age-range">Ages 4–6</div>
+      </div>
+    </div>    <div class="col-6 col-md-3 mb-3">
+      <div class="age-card" onclick="goToCategory('age-6-9')">
+        <div class="age-emoji">📚</div>
+        <div class="age-label">Young Readers</div>
+        <div class="age-range">Ages 6–9</div>
+      </div>
+    </div>    <div class="col-6 col-md-3 mb-3">
+      <div class="age-card" onclick="goToCategory('age-9-12')">
+        <div class="age-emoji">🌟</div>
+        <div class="age-label">Pre-teens</div>
+        <div class="age-range">Ages 9–12</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer text-center">
+  <div class="container">
+    <p>© 2025 ON'DA Book Store. All rights reserved.</p>
+    <div class="mb-2">
+      <a href="contact.html" class="mx-2">Contact</a>
+      <a href="aboutus.html" class="mx-2">About Us</a>
+      <a href="subscription.html" class="mx-2">Subscribe</a>
+    </div>
+    <div class="social-icons">
+      <a href="#"><i class="bi bi-instagram"></i></a>
+      <a href="#"><i class="bi bi-twitter-x"></i></a>
+      <a href="#"><i class="bi bi-github"></i></a>
+    </div>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script type="module" src="firebase.js"></script>
+<script src="cart.js"></script>
 <script type="module" src="auth.js"></script>
+<script>
+window.goToCategory = function(cat) {
+  window.location.href = 'books.html#cat-' + cat;
+};
+
+window.doSearch = function() {
+  const term = document.getElementById('searchBox').value.trim();
+  if (term) window.location.href = 'books.html?search=' + encodeURIComponent(term);
+};
+</script>
 </body>
 </html>

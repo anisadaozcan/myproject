@@ -83,14 +83,13 @@
       </div>
     </div>
 
-    <div class="library-user-card mb-4" id="userInfoCard"></div>
-
+    <div class="library-user-card mb-4" id="userInfoCard"></div> 
     <h2 class="category-title">📖 Free Books</h2>
     <p class="category-desc">Available to everyone — no purchase needed.</p>
-    <div class="row g-4 mb-5" id="freeBooksGrid">
-      <div class="col-sm-6 col-md-4 col-lg-3">
+    <div class="row g-4 mb-5 justify-content-center" id="freeBooksGrid">
+      <div class="col-6 col-md-4 col-lg-3">
         <div class="book-card library-book-card">
-          <img src="kapak.png" alt="The Lost Trail">
+          <img src="" alt="The Lost Trail">
           <div class="free-badge">FREE</div>
           <div class="book-card-body">
             <div class="book-card-title">The Lost Trail</div>
@@ -99,9 +98,9 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="col-6 col-md-4 col-lg-3">
         <div class="book-card library-book-card">
-          <img src="kapak.png" alt="Ocean Explorer">
+          <img src="" alt="Ocean Explorer">
           <div class="free-badge">FREE</div>
           <div class="book-card-body">
             <div class="book-card-title">Ocean Explorer</div>
@@ -196,7 +195,7 @@ onAuthStateChanged(auth, async user => {
       grid.innerHTML = books.map(b=>`
         <div class="col-sm-6 col-md-4 col-lg-3">
           <div class="book-card library-book-card">
-            <img src="kapak.png" alt="${b.bookTitle}">
+            <img src="" alt="${b.bookTitle}">
             <div class="book-card-body">
               <div class="book-card-title">${b.bookTitle}</div>
               <button class="btn-read-now" onclick="readBook('${b.bookTitle}')">📖 Read Now</button>
@@ -209,8 +208,8 @@ onAuthStateChanged(auth, async user => {
 
 
 window.readBook = function(title) {
-  if (title === 'The Lost Trail' || title === 'The Tale of Monster Falls') {
-    window.open('BURAYA_GOOGLE_DRIVE_LINKINI_YAPISTIR', '_blank');
+  if (title === 'The Tale Of Monster Falls' || title === 'The Tale of Monster Falls') {
+    window.open('https://drive.google.com/file/d/1LH01Ob7W3_wligRpEzFJdNZnTu7fl4Hb/view?usp=sharing', '_blank');
   } else {
     document.getElementById('readModalTitle').textContent = title;
     document.getElementById('readModal').classList.add('open');
