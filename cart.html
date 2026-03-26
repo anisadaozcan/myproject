@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => { renderCartPage(); });
 
 window.completePurchase = async function() {
   const modal = document.getElementById('paymentModal');
-  const { saveOrder } = await import('./firebase.js').catch(()=>({saveOrder:()=>{}}));
+  const { saveOrder } = await import('./auth.js').catch(()=>({saveOrder:()=>{}})); // DOĞRU DOSYA (auth.js)
   await saveOrder(cart, getTotal(), document.querySelector('.pay-method.active')?.textContent || 'Card');
   modal.querySelector('.payment-form').style.display='none';
   modal.querySelector('.success-state').style.display='block';

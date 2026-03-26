@@ -147,8 +147,9 @@ async function completePurchase() {
   const total = getTotal();
 
   // Firebase'e sipariş kaydet
+// Firebase'e sipariş kaydet
   try {
-    const { saveOrder } = await import('./firebase.js');
+    const { saveOrder } = await import('./auth.js'); // DOĞRU DOSYA (auth.js)
     await saveOrder(cart, total, payMethod);
   } catch(e) {
     console.warn('Firebase not connected:', e);
